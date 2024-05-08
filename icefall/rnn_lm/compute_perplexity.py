@@ -160,7 +160,7 @@ def main():
 
     device = torch.device("cpu")
     if torch.cuda.is_available():
-        device = torch.device("cuda", 0)
+        device = torch.device("cuda", 4)
 
     logging.info(f"Device: {device}")
 

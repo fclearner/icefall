@@ -427,7 +427,7 @@ def store_transcripts(
     Returns:
       Return None.
     """
-    with open(filename, "w") as f:
+    with open(filename, "w", encoding="utf-8") as f:
         for cut_id, ref, hyp in texts:
             print(f"{cut_id}:\tref={ref}", file=f)
             print(f"{cut_id}:\thyp={hyp}", file=f)

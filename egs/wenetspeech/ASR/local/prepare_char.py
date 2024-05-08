@@ -190,7 +190,7 @@ def main():
 
     lang_dir = Path(args.lang_dir)
     text_file = lang_dir / "text"
-
+  
     word_sym_table = k2.SymbolTable.from_file(lang_dir / "words.txt")
 
     words = word_sym_table.symbols

@@ -172,10 +172,10 @@ def get_params() -> AttributeDict:
     params = AttributeDict(
         {
             "max_sent_len": 200,
-            "sos_id": 1,
-            "eos_id": 1,
+            "sos_id": 5297,
+            "eos_id": 5297,
             "blank_id": 0,
-            "lr": 1e-3,
+            "lr": 1e-5,
             "weight_decay": 1e-6,
             "best_train_loss": float("inf"),
             "best_valid_loss": float("inf"),
@@ -184,10 +184,10 @@ def get_params() -> AttributeDict:
             "batch_idx_train": 0,
             "log_interval": 200,
             "reset_interval": 2000,
-            "valid_interval": 1000,
+            "valid_interval": 100,
             "nhead": 8,
-            "embedding_dim": 768,
-            "encoder_dim": 768,
+            "embedding_dim": 512,
+            "encoder_dim": 512,
             "dim_feedforward": 2048,
             "dropout": 0.1,
             "env_info": get_env_info(),
@@ -581,7 +581,7 @@ def run(rank, world_size, args):
             optimizer=optimizer,
             rank=rank,
         )
-    torch.cuda.empty_cache()
+
     logging.info("Done!")
 
     if is_distributed:

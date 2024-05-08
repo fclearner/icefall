@@ -23,7 +23,7 @@ from pathlib import Path
 
 import torch
 from dataset import get_dataloader
-from train import get_params
+from train_5298_finetune import get_params
 
 from icefall.checkpoint import average_checkpoints, load_checkpoint
 from icefall.transformer_lm.model import TransformerLM
@@ -119,7 +119,7 @@ def main():
 
     device = torch.device("cpu")
     if torch.cuda.is_available():
-        device = torch.device("cuda", 0)
+        device = torch.device("cuda", 5)
 
     logging.info(f"Device: {device}")
 

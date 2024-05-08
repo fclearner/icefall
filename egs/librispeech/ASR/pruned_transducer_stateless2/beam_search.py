@@ -25,6 +25,7 @@ import torch
 from model import Transducer
 
 from icefall import NgramLm, NgramLmStateCost
+from icefall.lexicon import Lexicon
 from icefall.decode import Nbest, one_best_decoding
 from icefall.lm_wrapper import LmScorer
 from icefall.rnn_lm.model import RnnLmModel
@@ -1852,7 +1853,7 @@ def modified_beam_search_LODR(
     model: Transducer,
     encoder_out: torch.Tensor,
     encoder_out_lens: torch.Tensor,
-    sp: spm.SentencePieceProcessor,
+    lexicon: Lexicon,
     LODR_lm: NgramLm,
     LODR_lm_scale: float,
     LM: LmScorer,
@@ -1901,7 +1902,7 @@ def modified_beam_search_LODR(
     )
 
     blank_id = model.decoder.blank_id
-    sos_id = sp.piece_to_id("<sos/eos>")
+    sos_id = lexicon.token_table["<sos/eos>"]
     unk_id = getattr(model, "unk_id", blank_id)
     context_size = model.decoder.context_size
     device = next(model.parameters()).device
@@ -1966,7 +1967,7 @@ def modified_beam_search_LODR(
         current_encoder_out = torch.index_select(
             current_encoder_out,
             dim=0,
-            index=hyps_shape.row_ids(1).to(torch.int64),
+            index=hyps_shape.row_ids(1).to(torch.int64).to(device),
         )  # (num_hyps, 1, 1, encoder_out_dim)
 
         logits = model.joiner(
@@ -2126,7 +2127,7 @@ def modified_beam_search_lm_shallow_fusion(
     model: Transducer,
     encoder_out: torch.Tensor,
     encoder_out_lens: torch.Tensor,
-    sp: spm.SentencePieceProcessor,
+    lexicon: Lexicon,
     LM: LmScorer,
     beam: int = 4,
     return_timestamps: bool = False,
@@ -2165,7 +2166,7 @@ def modified_beam_search_lm_shallow_fusion(
     )
 
     blank_id = model.decoder.blank_id
-    sos_id = sp.piece_to_id("<sos/eos>")
+    sos_id = lexicon.token_table["<sos/eos>"]
     unk_id = getattr(model, "unk_id", blank_id)
     context_size = model.decoder.context_size
     device = next(model.parameters()).device

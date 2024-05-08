@@ -153,7 +153,7 @@ class RnnLmModel(torch.nn.Module):
     def clean_cache(self):
         self.cache = {}
 
-    def score_token(self, x: torch.Tensor, x_lens: torch.Tensor, state=None):
+    def score_token(self, x: torch.Tensor, x_lens: torch.Tensor=None, state=None):
         """Score a batch of tokens
 
         Args:

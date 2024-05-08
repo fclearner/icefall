@@ -172,8 +172,8 @@ def get_params() -> AttributeDict:
     params = AttributeDict(
         {
             "max_sent_len": 200,
-            "sos_id": 1,
-            "eos_id": 1,
+            "sos_id": 5297,
+            "eos_id": 5297,
             "blank_id": 0,
             "lr": 1e-3,
             "weight_decay": 1e-6,
@@ -581,7 +581,7 @@ def run(rank, world_size, args):
             optimizer=optimizer,
             rank=rank,
         )
-    torch.cuda.empty_cache()
+
     logging.info("Done!")
 
     if is_distributed:
